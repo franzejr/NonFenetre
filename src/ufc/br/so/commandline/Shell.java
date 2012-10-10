@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import ufc.br.so.commandline.functions.Function;
+
 public class Shell {
 	public Shell(){
 		interFace();
@@ -16,17 +18,21 @@ public class Shell {
 			try {
 				command = buf.readLine();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			executeCommand(command);
 		}
 	}
 	private void executeCommand(String command) {
-		// TODO Auto-generated method stub
-		if(command.compareTo("exit")==0)
-			System.exit(0);
-		else
+		try{
+			command = command.substring(0, 1).toUpperCase()+command.substring(1).toLowerCase();
+			Function fun = (Function)Class.forName("ufc.br.so.commandline.functions."+command).newInstance();
+			fun.execute();
+		}
+		catch(Exception e){
+			e.printStackTrace();
 			System.out.println("Command not found");
+		}
+			
 	}
 }

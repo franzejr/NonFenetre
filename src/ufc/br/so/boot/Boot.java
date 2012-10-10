@@ -27,7 +27,7 @@ public class Boot {
 		cpuNum = Integer.parseInt(properties.getProperty("CPU_NUM"));
 		ramSize = Integer.parseInt(properties.getProperty("RAM_SIZE"));
 		HDSize = Integer.parseInt(properties.getProperty("HD_SIZE"));
-//		System.out.println(cpuNum+" "+ramSize+" "+HDSize);
+		System.out.println(cpuNum+" "+ramSize+" "+HDSize);
 	}
 	
 

@@ -1,6 +1,6 @@
 package ufc.br.so.main;
 
-import ufc.br.so.boot.Boot;
+import ufc.br.so.kernel.boot.Boot;
 
 public class Main {
 

@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import ufc.br.so.commandline.Shell;
+import ufc.br.so.shell.commandline.Shell;
 
 public class Boot {
 	

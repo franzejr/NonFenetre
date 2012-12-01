@@ -12,6 +12,15 @@ public class Processor implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 	}
+	
+	public float run(Process p){
+		return p.getCpuBurst() > 0 ? p.getCpuBurst() : executionTime(p);
+	}
+	
+	public float executionTime(Process p){
+		//TODO
+		return 0;
+	}
 
 	public List<MultiLevelQueue> getListMultiLevelQueues() {
 		return listMultiLevelQueues;

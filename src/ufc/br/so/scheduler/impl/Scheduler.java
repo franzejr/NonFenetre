@@ -7,12 +7,16 @@ import ufc.br.so.scheduler.model.Statistics;
 import ufc.br.so.scheduler.model.processor.Process;
 import ufc.br.so.scheduler.model.processor.ProcessorCollection;
 import ufc.br.so.scheduler.model.queue.MultiLevelQueue;
-
+/*
+ * Escalonador
+ */
 public class Scheduler implements IScheduler, Runnable {
 
 	private MultiLevelQueue multilevelQueue;
 	private Dispatcher dispatcher;
 	private ProcessorCollection processorCollection;
+	private Statistics statistics;
+	
 	
 	@Override
 	public void setInicialParameters(Configuration c) {
@@ -46,8 +50,7 @@ public class Scheduler implements IScheduler, Runnable {
 
 	@Override
 	public Statistics getStatistics() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.statistics;
 	}
 
 	@Override

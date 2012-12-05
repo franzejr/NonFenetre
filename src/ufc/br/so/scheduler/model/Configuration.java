@@ -26,5 +26,5 @@ public class Configuration {
 	public Map<String, String> getConfiguracoes() {
 		return configuracoes;
 	}
-	
+
 }

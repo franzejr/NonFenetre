@@ -1,5 +1,14 @@
 package ufc.br.so.scheduler.model.queue;
 
-public class ScheduleAlgorithm {
+import java.util.List;
+
+import ufc.br.so.kernel.spi.Algorithm;
+import ufc.br.so.scheduler.model.processor.Process;
+
+/*
+ * Algoritmos de escalonamento de processos
+ * 
+ */
+public abstract class ScheduleAlgorithm extends Algorithm<List<Process>> {
 
 }

@@ -5,18 +5,26 @@ import ufc.br.so.scheduler.model.Statistics;
 import ufc.br.so.scheduler.model.processor.Process;
 
 public interface IScheduler {
-	//Define os parâmetros para o escalonador
+
+	// Define os parametros para o escalonador
 	void setInicialParameters(Configuration c);
-	//Carrega um processo no escalonador
+
+	// Carrega um processo no escalonador
 	void loadProcess(Process p);
-	//Inicia a execução do scheduler
+
+	// Inicia a execucao do scheduler
 	void start();
-	//Suspende a execução do scheduler
+
+	// Suspende a execucao do scheduler
 	void suspend();
-	//Retoma a execução do ponto de onde parou
+
+	// Retoma a execucao do ponto de onde parou
 	void resume();
-	//Para a execução do scheduler
+
+	// Para a execucao do scheduler
 	void stop();
-	//Retorna as estatísticas da execução dos processos
+
+	// Retorna as estatísticas da execução dos processos
 	Statistics getStatistics();
+	
 }

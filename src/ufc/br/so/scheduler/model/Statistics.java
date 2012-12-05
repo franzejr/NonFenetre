@@ -1,7 +1,10 @@
 package ufc.br.so.scheduler.model;
 
 import java.util.Map;
-
+/*
+ * Classe geral para estatisticas gerais do SO
+ * 
+ */
 public class Statistics {
 
 	private Map<String,String> values;
@@ -13,8 +16,10 @@ public class Statistics {
 	public void setValues(Map<String, String> values) {
 		this.values = values;
 	}
-
-	public Statistics() {
+	
+	@Override
+	public String toString() {
+		return values.toString();
 	}
 	
 }

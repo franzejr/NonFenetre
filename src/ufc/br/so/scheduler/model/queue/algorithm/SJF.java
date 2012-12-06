@@ -15,7 +15,8 @@ import ufc.br.so.scheduler.model.queue.ScheduleAlgorithm;
  * 
  */
 public class SJF extends ScheduleAlgorithm {
-	//SFJ has a priority Queue which the priority is the cpu burst
+	
+	//TODO must be the Burst Time the priority of this queue
 	private PriorityQueue<Process> priorityQueue = new PriorityQueue<Process>();
 	
 	public SJF(){
@@ -28,10 +29,8 @@ public class SJF extends ScheduleAlgorithm {
 	@Override
 	public void execute(List<Process> source, Parameters parameters) {
 		report.setReport("Starting the execute method from SJF Algorithm");
-		
 		priorityQueue.addAll(source);
 		
-		int i = 0;
 		while(!priorityQueue.isEmpty()){
 			report.setReport("Getting the first element from the Priority Queue and putting it in a result list");
 			result.add( priorityQueue.poll() );

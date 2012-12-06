@@ -17,14 +17,14 @@ public class Dispatcher implements Runnable {
 		this.queue = queue;
 	}
 	/*
-	 * O dispatcher seleciona um processo dado um algoritmo de escalonamento
+	 * Select a process
 	 */
 	public Process selectProcess(){
-		//TODO ainda nao temos um escalador dos processos, entao vamos pegar o primeiro
+		//The process has been used in a specific
 		return queue.getListProcesses().get(0);
 	}
 	/*
-	 * O dispatcher envia um processo para um processador
+	 *Dispatcher send a process to a processor
 	 */
 	public void sendToProcessor(){
 		

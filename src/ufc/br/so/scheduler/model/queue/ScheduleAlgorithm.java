@@ -6,7 +6,7 @@ import ufc.br.so.kernel.spi.Algorithm;
 import ufc.br.so.scheduler.model.processor.Process;
 
 /*
- * Algoritmos de escalonamento de processos
+ * Schedule Algorithms
  * 
  */
 public abstract class ScheduleAlgorithm extends Algorithm<List<Process>> {

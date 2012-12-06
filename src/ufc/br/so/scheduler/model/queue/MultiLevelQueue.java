@@ -7,6 +7,7 @@ import java.util.Map;
 import ufc.br.so.scheduler.model.processor.Processor;
 
 /*
+ * A MultiLevelQueue can be a Queue for a specific system from the OS.
  * 
  */
 public class MultiLevelQueue implements Runnable {
@@ -18,7 +19,7 @@ public class MultiLevelQueue implements Runnable {
 	
 	public MultiLevelQueue(List<Processor> processors,  List<Queue> listQueue){
 		int i = 0, max = processors.size();
-		//Estamos adicionando de forma circular a cada processador uma Queue. 
+		//It's a circle list 
 		while(!listQueue.isEmpty()){
 				addPair(processors.get(i),listQueue.get(0));
 				listQueue.remove(0);
@@ -31,7 +32,7 @@ public class MultiLevelQueue implements Runnable {
 	}
 	
 	/*
-	 * Cria um par de uma fila com seu respectivo processador
+	 * Create a pair(processor and a Queue)
 	 */
 	public void addPair(Processor processor,Queue queue){
 		if(processorQueue.containsKey(processor)){

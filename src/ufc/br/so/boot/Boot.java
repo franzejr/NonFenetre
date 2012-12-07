@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Properties;
 
 import ufc.br.so.scheduler.impl.Scheduler;
+import ufc.br.so.scheduler.model.Statistics;
 import ufc.br.so.scheduler.model.processor.Processor;
 import ufc.br.so.scheduler.model.queue.MultiLevelQueue;
 import ufc.br.so.shell.commandline.Shell;
@@ -26,17 +27,20 @@ public class Boot {
 			listMultilevelQueue = XMLHelper.readMultilevelqueueFile("multilevelQueue.xml");
 		}
 		catch(Exception e){
-			//TODO fazer o devido tratamento de exceções
+			//TODO Handle the exceptions
 			e.printStackTrace();
 		}
-		//Inicializes the processors
+		//Initializes the processors
 		List<Processor> listProcessors = new ArrayList<Processor>();
 		for(int i=1;i<=cpuNum;i++){
 			listProcessors.add(new Processor(i));
 		}
 		
-		Scheduler scheduler = new Scheduler(listMultilevelQueue, listProcessors);
-		new Thread(scheduler).start();
+		Scheduler scheduler = new Scheduler(listMultilevelQueue.get(0), listProcessors);
+		scheduler.start();
+		
+		//Printing the Statistics
+		Statistics.getStatistics().toString();
 		new Shell();
 	}
 

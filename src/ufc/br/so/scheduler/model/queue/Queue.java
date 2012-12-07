@@ -1,20 +1,43 @@
 package ufc.br.so.scheduler.model.queue;
 
-import java.util.List;
-
+import ufc.br.so.scheduler.model.Statistics;
 import ufc.br.so.scheduler.model.processor.Process;
 
 public class Queue {
-	
-	private List<Process> listProcesses;
-	private ScheduleAlgorithm scheduleAlgorithm;
 
-	public List<Process> getListProcesses() {
-		return listProcesses;
+	private String name;
+	private java.util.Queue<Process> processes;
+	private ScheduleAlgorithm scheduleAlgorithm;
+	private QueueType queueType;
+
+	/*
+	 * This variable will be used for the Aging to verify if a queue runs a lot
+	 * of times, so the Aging Algorithms run other queue
+	 */
+	private int timesRunned;
+
+	public Queue(QueueType key, ScheduleAlgorithm value) {
+		this.scheduleAlgorithm = scheduleAlgorithm;
+		this.scheduleAlgorithm.setCurrentQueue(this);
+		this.queueType = queueType;
+		this.timesRunned = 0;
+		processes = this.scheduleAlgorithm.newQueueImpl();
 	}
 
-	public void setListProcesses(List<Process> listProcesses) {
-		this.listProcesses = listProcesses;
+	public String getName() {
+		return name;
+	}
+
+	public java.util.Queue<Process> getListProcesses() {
+		return processes;
+	}
+	
+	public QueueType getQueuePriority() {
+		return queueType;
+	}
+
+	public void setListProcesses(java.util.Queue<Process> listProcesses) {
+		this.processes = listProcesses;
 	}
 
 	public ScheduleAlgorithm getScheduleAlgorithm() {
@@ -24,4 +47,30 @@ public class Queue {
 	public void setScheduleAlgorithm(ScheduleAlgorithm scheduleAlgorithm) {
 		this.scheduleAlgorithm = scheduleAlgorithm;
 	}
+
+	public Process selectProcess() {
+		Process aux = scheduleAlgorithm.selectProcess();
+		if(aux != null && aux.isRunning() == true){
+			return null;
+		}
+		if(aux != null){
+			aux.setRunning(true);
+		}
+		return aux;
+	}
+
+	public int getTimesRunned() {
+		return timesRunned;
+	}
+	
+	public void setTimesRunned(final int timesRunned) {
+		this.timesRunned = timesRunned;
+	}
+
+	public void addProcess(final Process process) {
+		Statistics.getStatistics().addProcess(process);
+		Statistics.getStatistics().addProcessQueue(this, process);
+		processes.add(process);
+	}
+
 }

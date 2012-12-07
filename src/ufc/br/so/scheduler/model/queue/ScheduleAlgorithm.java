@@ -10,5 +10,44 @@ import ufc.br.so.scheduler.model.processor.Process;
  * 
  */
 public abstract class ScheduleAlgorithm extends Algorithm<List<Process>> {
+	
+	private boolean preemptive;
+	protected Queue queue;
+	
+	public ScheduleAlgorithm(boolean preemptive){
+		this.setPreemptive(preemptive);
+	}
+	
+	public boolean isPreemptive(){
+		return preemptive;
+	}
+	
+	public Queue getCurrentQueue(){
+		return queue;
+	}
+	
+	public void setCurrentQueue(Queue queue){
+		this.queue = queue;
+	}
+	
+	public Process selectProcess(){
+		do{
+			Process process = getCurrentQueue().getListProcesses().peek();
+			
+			if(process.isFinished()){
+				getCurrentQueue().getListProcesses().remove(process);
+			}else{
+				return process;
+			}
+			
+		}while(!getCurrentQueue().getListProcesses().isEmpty());
+		return null;
+	}
+	
+	public abstract java.util.Queue<Process> newQueueImpl();
+
+	public void setPreemptive(boolean preemptive) {
+		this.preemptive = preemptive;
+	}
 
 }

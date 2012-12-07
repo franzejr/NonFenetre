@@ -55,7 +55,7 @@ public class XMLHelper {
 					//Gets the process cpuBurs if it exists
 					String cpuBurst = processElement.getAttribute("cpuBurst");
 					if(cpuBurst != null && !"".equals(cpuBurst.trim())){
-						process.setCpuBurst(Float.valueOf(cpuBurst));
+						process.setBurstTime(Integer.valueOf(cpuBurst));
 					}
 					//Gets the process priority if it exists
 					String priority = processElement.getAttribute("priority");

@@ -3,24 +3,41 @@ package ufc.br.so.scheduler.model.queue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import ufc.br.so.scheduler.inter.ThreadManagement;
 import ufc.br.so.scheduler.model.processor.Processor;
+import ufc.br.so.scheduler.model.queue.algorithm.Aging;
 
 /*
  * A MultiLevelQueue can be a Queue for a specific system from the OS.
  * 
  */
-public class MultiLevelQueue implements Runnable {
+public class MultiLevelQueue implements ThreadManagement {
 	
 	private String id;
 	private List<Queue> listAllQueues;
 	private Map<Processor,List<Queue>> processorQueue;
-	
 	private QueueManager queueManager;
+	
+	private Thread multiQueueThread;
+	private boolean running = false;
+	private Queue queueToRun = null;
+	
+	public MultiLevelQueue(Map<QueueType,ScheduleAlgorithm> processQueuesAlgorithms){
+		queueManager = new Aging();
+		listAllQueues = new ArrayList<Queue>(processQueuesAlgorithms.size());
+		for(Entry<QueueType, ScheduleAlgorithm> entry: processQueuesAlgorithms.entrySet()){
+			listAllQueues.add(new Queue(entry.getKey(),entry.getValue()));
+		}
+		this.multiQueueThread = new Thread(this);
+		
+	}
 	
 	public MultiLevelQueue(String id, List<Queue> listAllQueues){
 		this.id = id;
 		this.listAllQueues = listAllQueues;
+		this.multiQueueThread = new Thread(this);
 	}
 	
 	public void setProcessorQueue(List<Processor> processors){
@@ -54,8 +71,92 @@ public class MultiLevelQueue implements Runnable {
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		while(true){
+			try{
+				if(queueToRun == null){
+					selectQueue();
+				}else{
+					Thread.sleep(1000);
+				}
+			}catch (InterruptedException e) {
+				return;
+			}
+		}
 	}
+	
+	@Override
+	public void start() {
+		if(!multiQueueThread.isAlive()){
+			multiQueueThread.start();
+		}else if(!running){
+			multiQueueThread.notify();
+		}
+		running = true;
+		
+	}
+
+	@Override
+	public void stop() throws InterruptedException {
+		if(running && !multiQueueThread.isInterrupted()){
+			multiQueueThread.interrupt();
+			running = false;
+		}
+		
+	}
+	
+	private synchronized void selectQueue() {
+		List<Queue> queuesThatHaveProcess = new ArrayList<Queue>();
+		// Verify if the list has process
+		for (Queue queueType : listAllQueues) {
+			if (queueType.getListProcesses().size() > 0) {
+				queuesThatHaveProcess.add(queueType);
+			}
+		}
+
+		// pega a fila da rodada, utilizando o Aging
+		queuesThatHaveProcess = orderQueueByPriority(queuesThatHaveProcess);
+		queueToRun = Aging.verifyQueueToRun(queuesThatHaveProcess);
+		
+	}
+	
+	public synchronized Queue getSelectedQueue(){
+		Queue aux = queueToRun;
+		this.queueToRun = null;
+		return aux;
+	}
+	
+	private List<Queue> orderQueueByPriority(final List<Queue> allQueues) {
+		Queue aux = null;
+		Object[] auxVector = allQueues.toArray();
+		for (int i = 0; i < auxVector.length; i++) {
+			for (int j = i; j < auxVector.length; j++) {
+				if (((Queue) auxVector[i]).getQueuePriority().getPriority() > ((Queue) auxVector[j])
+						.getQueuePriority().getPriority()) {
+					aux = (Queue) auxVector[i];
+					auxVector[i] = auxVector[j];
+					auxVector[j] = aux;
+				}
+			}
+		}
+		allQueues.clear();
+		for (int i = 0; i < auxVector.length; i++) {
+			allQueues.add((Queue) auxVector[i]);
+		}
+
+		return allQueues;
+
+	}
+	
+	public Queue getQueueByPriority(final QueueType priority) {
+		Queue aux = null;
+		for (Queue queue : listAllQueues) {
+			if (queue.getQueuePriority() == priority) {
+				aux = queue;
+			}
+		}
+		return aux;
+	}
+
 
 	public QueueManager getQueueManager() {
 		return queueManager;
@@ -88,5 +189,5 @@ public class MultiLevelQueue implements Runnable {
 	public void setListAllQueues(List<Queue> listAllQueues) {
 		this.listAllQueues = listAllQueues;
 	}
-
+	
 }

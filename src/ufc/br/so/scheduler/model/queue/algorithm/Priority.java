@@ -11,8 +11,8 @@ import ufc.br.so.scheduler.model.queue.ScheduleAlgorithm;
 
 public class Priority extends ScheduleAlgorithm{
 	
-	// TODO must be the priority attribute the priority of this Queue
-	private PriorityQueue<Process> priorityQueue = new PriorityQueue<Process>();
+	// The priority attribute is the priority of this Queue
+	private PriorityQueue<Process> priorityQueue = new PriorityQueue<Process>(10, Process.COMPARE_PRIORITY);
 	
 	public Priority() {
 		result = new ArrayList<Process>();

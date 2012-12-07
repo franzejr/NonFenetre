@@ -5,8 +5,14 @@ import java.util.List;
 import ufc.br.so.scheduler.model.queue.MultiLevelQueue;
 
 public class Processor implements Runnable{
+	
+	private long id;
 
 	private List<MultiLevelQueue> listMultiLevelQueues;
+	
+	public Processor(long id) {
+		this.id = id;
+	}
 	
 	@Override
 	public void run() {
@@ -28,6 +34,14 @@ public class Processor implements Runnable{
 
 	public void setListMultiLevelQueues(List<MultiLevelQueue> listMultiLevelQueues) {
 		this.listMultiLevelQueues = listMultiLevelQueues;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

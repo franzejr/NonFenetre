@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE multilevelQueue SYSTEM "multilevelQueue.dtd" >
+<multilevelQueues>
+	<multilevelQueue id="SO">
+		<queue algorithmId="SJF">
+			<process cpuBurst="5">
+				<instruction>print "teste SO SJF 1"</instruction>
+				<instruction>print "teste SO SJF 2"</instruction>
+			</process>
+			<process cpuBurst="8">
+				<instruction>print "teste SO SJF 3"</instruction>
+				<instruction>print "teste SO SJF 4"</instruction>
+			</process>
+			<process cpuBurst="2">
+				<instruction>print "teste SO SJF 5"</instruction>
+				<instruction>print "teste SO SJF 6"</instruction>
+			</process>
+		</queue>
+		<queue algorithmId="Priority">
+			<process priority="2">
+				<instruction>print "teste SO PRIORITY 1"</instruction>
+				<instruction>print "teste SO PRIORITY 2"</instruction>
+			</process>
+			<process priority="1">
+				<instruction>print "teste SO PRIORITY 3"</instruction>
+				<instruction>print "teste SO PRIORITY 4"</instruction>
+			</process>
+			<process priority="4">
+				<instruction>print "teste SO PRIORITY 5"</instruction>
+				<instruction>print "teste SO PRIORITY 6"</instruction>
+			</process>
+		</queue>
+	</multilevelQueue>
+	<multilevelQueue id="USER">
+		<queue algorithmId="SJF">
+			<process cpuBurst="10">
+				<instruction>print "teste USER SJF 1"</instruction>
+				<instruction>print "teste USER SJF 2"</instruction>
+			</process>
+			<process cpuBurst="3">
+				<instruction>print "teste USER SJF 3"</instruction>
+				<instruction>print "teste USER SJF 4"</instruction>
+			</process>
+			<process cpuBurst="5">
+				<instruction>print "teste USER SJF 5"</instruction>
+				<instruction>print "teste USER SJF 6"</instruction>
+			</process>
+		</queue>
+		<queue algorithmId="Priority">
+			<process priority="0">
+				<instruction>print "teste USER PRIORITY 1"</instruction>
+				<instruction>print "teste USER PRIORITY 2"</instruction>
+			</process>
+			<process priority="5">
+				<instruction>print "teste USER PRIORITY 3"</instruction>
+				<instruction>print "teste USER PRIORITY 4"</instruction>
+			</process>
+			<process priority="2">
+				<instruction>print "teste USER PRIORITY 5"</instruction>
+				<instruction>print "teste USER PRIORITY 6"</instruction>
+			</process>
+		</queue>
+	</multilevelQueue>
+</multilevelQueues>

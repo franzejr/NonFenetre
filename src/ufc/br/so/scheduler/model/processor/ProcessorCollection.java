@@ -2,11 +2,13 @@ package ufc.br.so.scheduler.model.processor;
 
 import java.util.List;
 
-import ufc.br.so.scheduler.impl.Scheduler;
-
-public class ProcessorCollection extends Scheduler {
+public class ProcessorCollection{
 	
-	List<Processor> listProcessors;
+	private List<Processor> listProcessors;
+	
+	public ProcessorCollection(List<Processor> listProcessors) {
+		this.listProcessors = listProcessors;
+	}
 
 	public List<Processor> getListProcessors() {
 		return listProcessors;

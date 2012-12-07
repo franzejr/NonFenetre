@@ -13,21 +13,28 @@ import ufc.br.so.scheduler.model.processor.Processor;
 public class MultiLevelQueue implements Runnable {
 	
 	private String id;
+	private List<Queue> listAllQueues;
 	private Map<Processor,List<Queue>> processorQueue;
 	
 	private QueueManager queueManager;
 	
-	public MultiLevelQueue(List<Processor> processors,  List<Queue> listQueue){
+	public MultiLevelQueue(String id, List<Queue> listAllQueues){
+		this.id = id;
+		this.listAllQueues = listAllQueues;
+	}
+	
+	public void setProcessorQueue(List<Processor> processors){
+		List<Queue> listAllQueuesTmp = new ArrayList<Queue>(listAllQueues);
 		int i = 0, max = processors.size();
 		//It's a circle list 
-		while(!listQueue.isEmpty()){
-				addPair(processors.get(i),listQueue.get(0));
-				listQueue.remove(0);
-				i++;
-				
-				if(i >= max){
-					i = 0; 
-				}
+		while(!listAllQueuesTmp.isEmpty()){
+			addPair(processors.get(i),listAllQueuesTmp.get(0));
+			listAllQueuesTmp.remove(0);
+			i++;
+			
+			if(i >= max){
+				i = 0; 
+			}
 		}
 	}
 	
@@ -72,6 +79,14 @@ public class MultiLevelQueue implements Runnable {
 
 	public void setProcessorQueue(Map<Processor,List<Queue>> processorQueue) {
 		this.processorQueue = processorQueue;
+	}
+
+	public List<Queue> getListAllQueues() {
+		return listAllQueues;
+	}
+
+	public void setListAllQueues(List<Queue> listAllQueues) {
+		this.listAllQueues = listAllQueues;
 	}
 
 }

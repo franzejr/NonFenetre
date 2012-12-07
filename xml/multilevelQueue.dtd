@@ -1,0 +1,16 @@
+<!ELEMENT multilevelQueues (multilevelQueue+)>
+<!ELEMENT multilevelQueue (queue+)>
+<!ELEMENT queue (process+)>
+<!ELEMENT process (instruction+)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT algorithmId (#PCDATA)>
+<!ELEMENT priority (#PCDATA)>
+<!ELEMENT cpuBurst (#PCDATA)>
+<!ELEMENT arrivalTime (#PCDATA)>
+<!ELEMENT object (#PCDATA)>
+
+<!ATTLIST multilevelQueue id CDATA #REQUIRED>
+<!ATTLIST queue algorithmId CDATA #REQUIRED>
+<!ATTLIST process priority CDATA #IMPLIED>
+<!ATTLIST process cpuBurst CDATA #IMPLIED>
+<!ATTLIST process arrivalTime CDATA #IMPLIED>

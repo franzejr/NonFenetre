@@ -18,8 +18,8 @@ import ufc.br.so.scheduler.model.queue.ScheduleAlgorithm;
  */
 public class FCFS extends ScheduleAlgorithm {
 
-	// TODO must be the arrival time the priority of this Queue
-	private PriorityQueue<Process> priorityQueue = new PriorityQueue<Process>();
+	// The arrival time is the priority of this Queue
+	private PriorityQueue<Process> priorityQueue = new PriorityQueue<Process>(10, Process.COMPARE_ARRIVALTIME);
 
 	public FCFS() {
 		result = new ArrayList<Process>();

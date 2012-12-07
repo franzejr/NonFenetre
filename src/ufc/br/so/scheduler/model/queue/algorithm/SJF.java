@@ -16,8 +16,8 @@ import ufc.br.so.scheduler.model.queue.ScheduleAlgorithm;
  */
 public class SJF extends ScheduleAlgorithm {
 	
-	//TODO must be the Burst Time the priority of this queue
-	private PriorityQueue<Process> priorityQueue = new PriorityQueue<Process>();
+	//The CPU Burst is the priority of this queue
+	private PriorityQueue<Process> priorityQueue = new PriorityQueue<Process>(10, Process.COMPARE_CPUBURST);
 	
 	public SJF(){
 		//SJF result is a List of process 

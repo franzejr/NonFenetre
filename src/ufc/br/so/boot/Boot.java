@@ -3,9 +3,11 @@ package ufc.br.so.boot;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import ufc.br.so.scheduler.model.processor.Process;
 import ufc.br.so.scheduler.impl.Scheduler;
 import ufc.br.so.scheduler.model.Statistics;
 import ufc.br.so.scheduler.model.processor.Processor;
@@ -27,7 +29,6 @@ public class Boot {
 			listMultilevelQueue = XMLHelper.readMultilevelqueueFile("multilevelQueue.xml");
 		}
 		catch(Exception e){
-			//TODO Handle the exceptions
 			e.printStackTrace();
 		}
 		//Initializes the processors
@@ -37,10 +38,17 @@ public class Boot {
 		}
 		
 		Scheduler scheduler = new Scheduler(listMultilevelQueue.get(0), listProcessors);
+		
+//		java.util.Queue<Process> processes = listMultilevelQueue.get(0).getListAllQueues().get(0).getListProcesses();
+//		
+//		for (Process process : processes) {
+//			scheduler.loadProcess(process);
+//		}
+		
 		scheduler.start();
 		
 		//Printing the Statistics
-		Statistics.getStatistics().toString();
+		System.out.println(Statistics.getStatistics().toString());
 		new Shell();
 	}
 

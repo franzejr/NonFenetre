@@ -13,7 +13,9 @@ import org.w3c.dom.NodeList;
 
 import ufc.br.so.scheduler.model.processor.Process;
 import ufc.br.so.scheduler.model.queue.MultiLevelQueue;
+import ufc.br.so.scheduler.model.queue.ProcessType;
 import ufc.br.so.scheduler.model.queue.Queue;
+import ufc.br.so.scheduler.model.queue.QueueType;
 import ufc.br.so.scheduler.model.queue.ScheduleAlgorithm;
 
 public class XMLHelper {
@@ -36,16 +38,23 @@ public class XMLHelper {
 			List<Queue> listQueues = new ArrayList<Queue>();
 			//Gets the list of Queues inside the multilevelQueue
 			NodeList queues = multilevelQueueElement.getChildNodes();
+			
 			for(int j=0;j<queues.getLength();j++){
+				
 				Element queueElement = (Element)queues.item(j);
 				Queue queue = new Queue();
 				
 				String scheduleAlgorithm = queueElement.getAttribute("algorithmId");
+				String queueType = queueElement.getAttribute("queueType");
 				if(scheduleAlgorithm != null && !"".equals(scheduleAlgorithm.trim())){
-					queue.setScheduleAlgorithm((ScheduleAlgorithm)Class.forName("ufc.br.so.scheduler.model.queue.algorithm."+scheduleAlgorithm).newInstance());;
+					QueueType qType = setQueueType(queueType);
+					queue.setQueueType(qType);
+					queue.setScheduleAlgorithm((ScheduleAlgorithm)Class.forName("ufc.br.so.scheduler.model.queue.algorithm."+scheduleAlgorithm).newInstance());
 				}
+				 
 				
-				List<Process> listProcesses = new ArrayList<Process>();
+				java.util.Queue<Process> listProcesses = queue.getScheduleAlgorithm().newQueueImpl();
+				
 				//Gets the list of processes inside the queue
 				NodeList processes = queueElement.getChildNodes();
 				for(int k=0;k<processes.getLength();k++){
@@ -53,9 +62,9 @@ public class XMLHelper {
 					Process process = new Process();
 					
 					//Gets the process cpuBurs if it exists
-					String cpuBurst = processElement.getAttribute("cpuBurst");
+					String cpuBurst = processElement.getAttribute("executionTime");
 					if(cpuBurst != null && !"".equals(cpuBurst.trim())){
-						process.setBurstTime(Integer.valueOf(cpuBurst));
+						process.setExecutionTime(Integer.valueOf(cpuBurst));
 					}
 					//Gets the process priority if it exists
 					String priority = processElement.getAttribute("priority");
@@ -73,11 +82,28 @@ public class XMLHelper {
 				queue.setListProcesses(listProcesses);
 				listQueues.add(queue);
 			}
+			
 			String multilevelQueueId = multilevelQueueElement.getAttribute("id");
 			multilevelQueue = new MultiLevelQueue(multilevelQueueId, listQueues);
 			listMultilevelQueues.add(multilevelQueue);
 		}
 		return listMultilevelQueues;
+	}
+	
+	public static QueueType setQueueType(String queueType){
+		
+		if(queueType.equals("system")){
+			return QueueType.QUEUE_SYSTEM;
+		}
+		else if(queueType.equals("background")){
+			return QueueType.QUEUE_BACKGROUND;
+		}
+		else if(queueType.equals("batch")){
+			return QueueType.QUEUE_BATCH;
+		}
+		else{
+			return QueueType.QUEUE_INTERACTIVE;
+		}
 	}
 	
 //	public static void main(String[] args) {

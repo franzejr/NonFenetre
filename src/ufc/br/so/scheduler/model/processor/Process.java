@@ -11,7 +11,6 @@ import ufc.br.so.scheduler.model.queue.ProcessType;
  */
 public class Process {
 
-	private Integer burstTime;
 	private long arrivalTime;
 	private int priority;
 	private long turnAroundTime;
@@ -30,21 +29,21 @@ public class Process {
 	public Process() {
 	}
 
-	public Process(Integer burstTime, int priority, long arrivalTime) {
-		this.burstTime = burstTime;
+	public Process(Integer executionTime, int priority, long arrivalTime) {
+		this.executionTime = executionTime;
 		this.priority = priority;
 		this.arrivalTime = arrivalTime;
 	}
 
-	public Process(Integer cpuBurst) {
-		this.burstTime = cpuBurst;
+	public Process(Integer executionTime) {
+		this.executionTime = executionTime;
 	}
-	
-	public boolean isRunning(){
+
+	public boolean isRunning() {
 		return isRunning;
 	}
-	
-	public void setRunning(boolean isRunning){
+
+	public void setRunning(boolean isRunning) {
 		this.isRunning = isRunning;
 	}
 
@@ -58,28 +57,34 @@ public class Process {
 	public void setExecutionTime(int executionTime) {
 		this.executionTime = executionTime;
 		this.remainingTime = executionTime;
+		
 		if (this.executionTime == null) {
 			this.executionTime = 0;
 		}
 	}
+	
+	private int generateCPUBurstTime() {
+		return (int) (10 * Math.random()); 
+	}
 
 	public int execute() {
+		int burstTime = generateCPUBurstTime();
 		int timeExecuting = 0;
 		if (remainingTime == null) {
 			timeExecuting = burstTime;
 			executionTime += burstTime;
 
 		} else {
-			//If the process has a quantum
-			if(getTimeQuantum() != null){
+			// If the process has a quantum
+			if (getTimeQuantum() != null) {
 				int min = Math.min(getTimeQuantum(), burstTime);
 				timeExecuting = burstTime;
-				if(remainingTime > burstTime){
+				if (remainingTime > burstTime) {
 					remainingTime = remainingTime - burstTime;
-				}else{
+				} else {
 					remainingTime = 0;
 				}
-			}else{
+			} else {
 				timeExecuting = remainingTime;
 				remainingTime = 0;
 			}
@@ -88,15 +93,15 @@ public class Process {
 	}
 
 	/*
-	 * Comparator to CPUBurst
+	 * Comparator to CPUBurst(executionTime)
 	 */
 	public static Comparator<Process> COMPARE_CPUBURST = new Comparator<Process>() {
 
 		@Override
 		public int compare(Process p1, Process p2) {
-			if (p1.getBurstTime() > p2.getBurstTime()) {
+			if (p1.getExecutionTime() > p2.getExecutionTime()) {
 				return 1;
-			} else if (p1.getBurstTime() < p2.getBurstTime()) {
+			} else if (p1.getExecutionTime() < p2.getExecutionTime()) {
 				return -1;
 			}
 			return 0;
@@ -143,14 +148,6 @@ public class Process {
 
 	public float getTotalWaitingTime() {
 		return totalWaitingTime;
-	}
-
-	public Integer getBurstTime() {
-		return burstTime;
-	}
-
-	public void setBurstTime(Integer cpuBurst) {
-		this.burstTime = cpuBurst;
 	}
 
 	public long getArrivalTime() {
@@ -212,7 +209,7 @@ public class Process {
 	public ProcessType getTypeOfProcess() {
 		return typeOfProcess;
 	}
-	
+
 	public void setTypeOfProcess(ProcessType typeOfProcess) {
 		this.typeOfProcess = typeOfProcess;
 	}

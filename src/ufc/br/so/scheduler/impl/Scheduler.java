@@ -33,12 +33,12 @@ public class Scheduler implements IScheduler, ThreadManagement {
 		this.multilevelQueue = multiLevelQueue;
 		this.processorCollection = new ProcessorCollection(listProcessors);
 		this.dispatcher = new Dispatcher();
-		
+		this.statistics = Statistics.getStatistics();
 		schedulerThread = new Thread(this);
 	}
 	
 	@Override
-	public void setInicialParameters(Configuration c) {
+	public void setInitialParameters(Configuration c) {
 		// TODO Auto-generated method stub
 	}
 	/*
@@ -60,6 +60,7 @@ public class Scheduler implements IScheduler, ThreadManagement {
 			schedulerThread.start();
 		}
 		multilevelQueue.start();
+		dispatcher.start();
 		
 	}
 
@@ -74,18 +75,17 @@ public class Scheduler implements IScheduler, ThreadManagement {
 			running = true;
 			schedulerThread.notify();
 			multilevelQueue.start();
-			
+			dispatcher.start();
 		}
 	}
 
 	@Override
-	public void stop() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public Statistics getStatistics() {
-		return this.statistics;
+	public void stop() throws InterruptedException {
+		if(!schedulerThread.isInterrupted()){
+			schedulerThread.interrupt();
+		}
+		multilevelQueue.stop();
+		dispatcher.stop();
 	}
 
 	@Override
@@ -123,6 +123,11 @@ public class Scheduler implements IScheduler, ThreadManagement {
 			//	System.out.println("ESPERANDO - SCHEDULER");
 			}
 		}
+	}
+	
+	@Override
+	public Statistics getStatistics() {
+		return this.statistics;
 	}
 	
 	public ProcessorCollection getProcessorCollection() {

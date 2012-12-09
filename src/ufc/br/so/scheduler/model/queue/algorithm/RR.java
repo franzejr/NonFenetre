@@ -2,6 +2,7 @@ package ufc.br.so.scheduler.model.queue.algorithm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 import ufc.br.so.kernel.spi.Parameters;
 import ufc.br.so.kernel.spi.Report;
@@ -31,6 +32,7 @@ public class RR extends ScheduleAlgorithm{
 		 * The result will be a list of process, so this process can be repeated, of course, mainly if the
 		 * quantumTime is small.
 		 */
+		super(false);
 		result = new ArrayList<Process>();
 		identifier = "RR";
 		report = new Report();
@@ -48,6 +50,12 @@ public class RR extends ScheduleAlgorithm{
 
 	public void setQuantumTime(int quantumTime) {
 		this.quantumTime = quantumTime;
+	}
+
+	@Override
+	public Queue<Process> newQueueImpl() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

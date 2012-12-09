@@ -30,6 +30,12 @@ public abstract class ScheduleAlgorithm extends Algorithm<List<Process>> {
 		this.queue = queue;
 	}
 	
+	public void setPreemptive(boolean preemptive) {
+		this.preemptive = preemptive;
+	}
+	
+	public abstract java.util.Queue<Process> newQueueImpl();
+	
 	public Process selectProcess(){
 		do{
 			Process process = getCurrentQueue().getListProcesses().peek();
@@ -44,10 +50,7 @@ public abstract class ScheduleAlgorithm extends Algorithm<List<Process>> {
 		return null;
 	}
 	
-	public abstract java.util.Queue<Process> newQueueImpl();
+	
 
-	public void setPreemptive(boolean preemptive) {
-		this.preemptive = preemptive;
-	}
 
 }

@@ -12,10 +12,10 @@ import java.util.Arrays;
  * 
  */
 public enum QueueType {
-	QUEUE_SYSTEM("system", 2, ProcessType.SYSTEM_PROCESS), QUEUE_BACKGROUND(
-			"background", 3, ProcessType.BACKGROUND_PROCESS), QUEUE_BATCH(
-			"batch", 4, ProcessType.BATCH_PROCESS), QUEUE_INTERACTIVE(
-			"interactive", 1, ProcessType.INTERACTIVE_PROCESS);
+			QUEUE_SYSTEM("system", 2, ProcessType.SYSTEM_PROCESS), 
+			QUEUE_BACKGROUND("background", 3, ProcessType.BACKGROUND_PROCESS), 
+			QUEUE_BATCH("batch", 4, ProcessType.BATCH_PROCESS), 
+			QUEUE_INTERACTIVE("interactive", 1, ProcessType.INTERACTIVE_PROCESS);
 
 	private String name;
 	private int priority;

@@ -23,6 +23,11 @@ public class Queue {
 		this.timesRunned = 0;
 		processes = this.scheduleAlgorithm.newQueueImpl();
 	}
+	
+	//When to load to XML
+	public Queue(){
+		this.timesRunned = 0;
+	}
 
 	public String getName() {
 		return name;
@@ -30,6 +35,10 @@ public class Queue {
 
 	public java.util.Queue<Process> getListProcesses() {
 		return processes;
+	}
+	
+	public void setQueueType(QueueType queueType){
+		this.queueType = queueType;
 	}
 	
 	public QueueType getQueuePriority() {
@@ -46,6 +55,8 @@ public class Queue {
 
 	public void setScheduleAlgorithm(ScheduleAlgorithm scheduleAlgorithm) {
 		this.scheduleAlgorithm = scheduleAlgorithm;
+		this.scheduleAlgorithm.setCurrentQueue(this);
+		processes = this.scheduleAlgorithm.newQueueImpl();
 	}
 
 	public Process selectProcess() {

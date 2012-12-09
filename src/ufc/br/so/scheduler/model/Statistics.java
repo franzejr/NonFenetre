@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 
+import ufc.br.so.scheduler.model.processor.Processor;
 import ufc.br.so.scheduler.model.processor.ProcessorCollection;
 import ufc.br.so.scheduler.model.queue.Queue;
 import ufc.br.so.scheduler.model.processor.Process;
@@ -43,7 +45,62 @@ public class Statistics {
 	 * Main method to generate statistics
 	 */
 	private void generateStatistics() {
+		statisticTuples = new ArrayList<StatisticTuples>();
+		List<Processor> processors = processorCollection.getListProcessors();
+		
+		//Number of processors executed
+		statisticTuples.add(new StatisticTuples("number_processors_executed", Integer.toString(processes.size())));
+		
+		Map<Queue,Integer> queuesNumberProcesses = new HashMap<Queue, Integer>();
+		for(Entry<Queue,List<Process>> entry : queuesProcess.entrySet()){
+			queuesNumberProcesses.put(entry.getKey(), entry.getValue().size());
+		}
+		statisticTuples.add(new StatisticTuples("quantity_process_by_queue", Integer.toString(queuesNumberProcesses.size())));
+		
+		//Total time of processing
+		Float totalTimeProcessing = 0f;
+		for(Processor processor : processors){
+			totalTimeProcessing += processor.getEffectiveExecutingTime();
+		}
+		statisticTuples.add(new StatisticTuples("total_time_processing", totalTimeProcessing.toString()));
+		
+		//Average throughput
+		float maxExecutingTime = 0f;
+		for(Processor processor : processors){
+			if(processor.getEffectiveExecutingTime() > maxExecutingTime){
+				maxExecutingTime = processor.getEffectiveExecutingTime();
+			}
+		}
+		Float avgThroughput = processes.size() / maxExecutingTime;
+		statisticTuples.add(new StatisticTuples("average_throughput", avgThroughput.toString() ));
+		
+		//Average waiting Time
+		Float avgWaitingTime = 0f;
+		for(Process process : processes){
+			avgWaitingTime += process.getTotalWaitingTime();
+		}
+		avgWaitingTime = avgWaitingTime / processes.size();
+		statisticTuples.add(new StatisticTuples("average_waitingTime", avgWaitingTime.toString() ));
+		
+		//Average TurnAround
+		Float avgTurnAround = 0f;
+		for(Process process : processes){
+			avgTurnAround += process.getTotalWaitingTime() + process.getExecutionTime();
+		}
+		avgTurnAround = avgTurnAround / processes.size();
+		statisticTuples.add(new StatisticTuples("average_turnAround", avgTurnAround.toString() ));
+		
+		
+		//Average Response Time
+		Float avgResponseTime = 0f;
+		for (Process process : processes) {
+			avgResponseTime += process.getWaitingTimeForFirstResponse();
+		}
+		avgResponseTime = avgResponseTime / processes.size();
+		statisticTuples.add(new StatisticTuples("avg_response_time", avgResponseTime.toString()));
 
+		
+		
 	}
 
 	public List<StatisticTuples> getStatisticTuples() {
@@ -67,9 +124,9 @@ public class Statistics {
 	@Override
 	public String toString() {
 		List<StatisticTuples> tuples = getStatisticTuples();
-		String string = "\n--- STATISTICS BEGIN ---";
+		String string = "\n--- STATISTICS BEGIN ---\n";
 		for (StatisticTuples tuple : tuples) {
-			string += tuple.toString();
+			string += tuple.toString() + "\n";
 		}
 		string += "\n--- STATISTICS END ---";
 		return string;

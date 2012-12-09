@@ -116,7 +116,6 @@ public class MultiLevelQueue implements ThreadManagement {
 		// pega a fila da rodada, utilizando o Aging
 		queuesThatHaveProcess = orderQueueByPriority(queuesThatHaveProcess);
 		queueToRun = Aging.verifyQueueToRun(queuesThatHaveProcess);
-		
 	}
 	
 	public synchronized Queue getSelectedQueue(){

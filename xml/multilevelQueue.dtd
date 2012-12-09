@@ -4,13 +4,15 @@
 <!ELEMENT process (instruction+)>
 <!ELEMENT id (#PCDATA)>
 <!ELEMENT algorithmId (#PCDATA)>
+<!ELEMENT queueType (#PCDATA)>
 <!ELEMENT priority (#PCDATA)>
-<!ELEMENT cpuBurst (#PCDATA)>
+<!ELEMENT executionTime (#PCDATA)>
 <!ELEMENT arrivalTime (#PCDATA)>
 <!ELEMENT object (#PCDATA)>
 
 <!ATTLIST multilevelQueue id CDATA #REQUIRED>
 <!ATTLIST queue algorithmId CDATA #REQUIRED>
+<!ATTLIST queue queueType CDATA #REQUIRED>
 <!ATTLIST process priority CDATA #IMPLIED>
-<!ATTLIST process cpuBurst CDATA #IMPLIED>
+<!ATTLIST process executionTime CDATA #IMPLIED>
 <!ATTLIST process arrivalTime CDATA #IMPLIED>

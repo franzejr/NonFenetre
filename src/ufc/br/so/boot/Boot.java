@@ -3,11 +3,9 @@ package ufc.br.so.boot;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-import ufc.br.so.scheduler.model.processor.Process;
 import ufc.br.so.scheduler.impl.Scheduler;
 import ufc.br.so.scheduler.model.Statistics;
 import ufc.br.so.scheduler.model.processor.Processor;

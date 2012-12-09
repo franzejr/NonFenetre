@@ -13,7 +13,6 @@ import org.w3c.dom.NodeList;
 
 import ufc.br.so.scheduler.model.processor.Process;
 import ufc.br.so.scheduler.model.queue.MultiLevelQueue;
-import ufc.br.so.scheduler.model.queue.ProcessType;
 import ufc.br.so.scheduler.model.queue.Queue;
 import ufc.br.so.scheduler.model.queue.QueueType;
 import ufc.br.so.scheduler.model.queue.ScheduleAlgorithm;

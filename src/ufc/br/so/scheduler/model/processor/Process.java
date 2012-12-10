@@ -77,7 +77,7 @@ public class Process {
 		} else {
 			// If the process has a quantum
 			if (getTimeQuantum() != null) {
-				int min = Math.min(getTimeQuantum(), burstTime);
+//				int min = Math.min(getTimeQuantum(), burstTime);
 				timeExecuting = burstTime;
 				if (remainingTime > burstTime) {
 					remainingTime = remainingTime - burstTime;

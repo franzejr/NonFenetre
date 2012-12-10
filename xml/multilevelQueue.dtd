@@ -8,6 +8,7 @@
 <!ELEMENT priority (#PCDATA)>
 <!ELEMENT executionTime (#PCDATA)>
 <!ELEMENT arrivalTime (#PCDATA)>
+<!ELEMENT processType (#PCDATA)>
 <!ELEMENT object (#PCDATA)>
 
 <!ATTLIST multilevelQueue id CDATA #REQUIRED>
@@ -16,3 +17,4 @@
 <!ATTLIST process priority CDATA #IMPLIED>
 <!ATTLIST process executionTime CDATA #IMPLIED>
 <!ATTLIST process arrivalTime CDATA #IMPLIED>
+<!ATTLIST process processType CDATA #REQUIRED>

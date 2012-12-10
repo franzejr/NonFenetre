@@ -3,29 +3,29 @@
 <multilevelQueues>
 	<multilevelQueue id="SO">
 		<queue algorithmId="SJF" queueType="interactive">
-			<process executionTime="5">
+			<process executionTime="5" processType="INTERACTIVE_PROCESS">
 				<instruction>print "teste SO SJF 1"</instruction>
 				<instruction>print "teste SO SJF 2"</instruction>
 			</process>
-			<process executionTime="8">
+			<process executionTime="8" processType="INTERACTIVE_PROCESS">
 				<instruction>print "teste SO SJF 3"</instruction>
 				<instruction>print "teste SO SJF 4"</instruction>
 			</process>
-			<process executionTime="2" >
+			<process executionTime="2" processType="INTERACTIVE_PROCESS">
 				<instruction>print "teste SO SJF 5"</instruction>
 				<instruction>print "teste SO SJF 6"</instruction>
 			</process>
 		</queue>
 		<queue algorithmId="Priority" queueType="batch">
-			<process priority="2" executionTime="15">
+			<process priority="2" executionTime="15" processType="BATCH_PROCESS">
 				<instruction>print "teste SO PRIORITY 1"</instruction>
 				<instruction>print "teste SO PRIORITY 2"</instruction>
 			</process>
-			<process priority="1" executionTime="10">
+			<process priority="1" executionTime="10" processType="BATCH_PROCESS">
 				<instruction>print "teste SO PRIORITY 3"</instruction>
 				<instruction>print "teste SO PRIORITY 4"</instruction>
 			</process>
-			<process priority="4" executionTime="15">
+			<process priority="4" executionTime="15" processType="BATCH_PROCESS">
 				<instruction>print "teste SO PRIORITY 5"</instruction>
 				<instruction>print "teste SO PRIORITY 6"</instruction>
 			</process>
@@ -33,29 +33,29 @@
 	</multilevelQueue>
 	<multilevelQueue id="USER">
 		<queue algorithmId="SJF" queueType="system">
-			<process executionTime="10">
+			<process executionTime="10" processType="SYSTEM_PROCESS">
 				<instruction>print "teste USER SJF 1"</instruction>
 				<instruction>print "teste USER SJF 2"</instruction>
 			</process>
-			<process executionTime="3">
+			<process executionTime="3" processType="SYSTEM_PROCESS">
 				<instruction>print "teste USER SJF 3"</instruction>
 				<instruction>print "teste USER SJF 4"</instruction>
 			</process>
-			<process executionTime="5">
+			<process executionTime="5" processType="SYSTEM_PROCESS">
 				<instruction>print "teste USER SJF 5"</instruction>
 				<instruction>print "teste USER SJF 6"</instruction>
 			</process>
 		</queue>
 		<queue algorithmId="Priority" queueType="background">
-			<process priority="0" executionTime="5">
+			<process priority="0" executionTime="5" processType="BACKGROUND_PROCESS">
 				<instruction>print "teste USER PRIORITY 1"</instruction>
 				<instruction>print "teste USER PRIORITY 2"</instruction>
 			</process>
-			<process priority="5" executionTime="15">
+			<process priority="5" executionTime="15" processType="BACKGROUND_PROCESS">
 				<instruction>print "teste USER PRIORITY 3"</instruction>
 				<instruction>print "teste USER PRIORITY 4"</instruction>
 			</process>
-			<process priority="2" executionTime="3">
+			<process priority="2" executionTime="3" processType="BACKGROUND_PROCESS">
 				<instruction>print "teste USER PRIORITY 5"</instruction>
 				<instruction>print "teste USER PRIORITY 6"</instruction>
 			</process>

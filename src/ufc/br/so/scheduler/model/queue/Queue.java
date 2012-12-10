@@ -17,9 +17,9 @@ public class Queue {
 	private int timesRunned;
 
 	public Queue(QueueType key, ScheduleAlgorithm value) {
-		this.scheduleAlgorithm = scheduleAlgorithm;
+		this.scheduleAlgorithm = value;
 		this.scheduleAlgorithm.setCurrentQueue(this);
-		this.queueType = queueType;
+		this.queueType = key;
 		this.timesRunned = 0;
 		processes = this.scheduleAlgorithm.newQueueImpl();
 	}

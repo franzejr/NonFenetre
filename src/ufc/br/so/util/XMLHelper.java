@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 
 import ufc.br.so.scheduler.model.processor.Process;
 import ufc.br.so.scheduler.model.queue.MultiLevelQueue;
+import ufc.br.so.scheduler.model.queue.ProcessType;
 import ufc.br.so.scheduler.model.queue.Queue;
 import ufc.br.so.scheduler.model.queue.QueueType;
 import ufc.br.so.scheduler.model.queue.ScheduleAlgorithm;
@@ -75,6 +76,10 @@ public class XMLHelper {
 					if(arrivalTime != null && !"".equals(arrivalTime.trim())){
 						process.setArrivalTime(Long.valueOf(arrivalTime));
 					}
+					
+					String processType = processElement.getAttribute("processType");
+					process.setTypeOfProcess(ProcessType.valueOf(processType));
+					
 					//TODO read process' instructions
 					listProcesses.add(process);
 				}

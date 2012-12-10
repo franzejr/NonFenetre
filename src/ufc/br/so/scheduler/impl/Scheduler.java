@@ -117,7 +117,10 @@ public class Scheduler implements IScheduler, ThreadManagement {
 			Queue queue = multilevelQueue.getSelectedQueue();
 			if (queue != null) {
 				//System.out.println("ENTROU");
-				dispatcher.dispatch(queue, processorCollection);
+				Process processToLoad = dispatcher.dispatch(queue, processorCollection);
+				if(processToLoad != null){
+					loadProcess(processToLoad);
+				}
 
 			} else {
 			//	System.out.println("ESPERANDO - SCHEDULER");

@@ -10,6 +10,8 @@ import ufc.br.so.scheduler.model.queue.ProcessType;
  * 
  */
 public class Process {
+	
+	private String identifier;
 
 	private long arrivalTime;
 	private int priority;
@@ -53,6 +55,14 @@ public class Process {
 		}
 		this.totalWaitingTime += waitingTime;
 	}
+	
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
 
 	public void setExecutionTime(int executionTime) {
 		this.executionTime = executionTime;
@@ -77,7 +87,6 @@ public class Process {
 		} else {
 			// If the process has a quantum
 			if (getTimeQuantum() != null) {
-//				int min = Math.min(getTimeQuantum(), burstTime);
 				timeExecuting = burstTime;
 				if (remainingTime > burstTime) {
 					remainingTime = remainingTime - burstTime;
@@ -140,6 +149,10 @@ public class Process {
 			return 0;
 		}
 
+	};
+	@Override
+	public String toString() {
+		return this.getIdentifier();
 	};
 
 	public float getWaitingTimeForFirstResponse() {

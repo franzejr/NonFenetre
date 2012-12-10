@@ -13,6 +13,8 @@ import ufc.br.so.scheduler.model.queue.MultiLevelQueue;
 import ufc.br.so.shell.commandline.Shell;
 import ufc.br.so.util.XMLHelper;
 
+import ufc.br.so.scheduler.model.processor.Process;
+
 public class Boot {
 	
 	private int cpuNum;
@@ -37,14 +39,19 @@ public class Boot {
 		
 		Scheduler scheduler = new Scheduler(listMultilevelQueue.get(0), listProcessors);
 		
-//		java.util.Queue<Process> processes = listMultilevelQueue.get(0).getListAllQueues().get(0).getListProcesses();
-//		
-//		for (Process process : processes) {
-//			scheduler.loadProcess(process);
-//		}
+		java.util.Queue<Process> processes = listMultilevelQueue.get(0).getListAllQueues().get(0).getListProcesses();
+		
+		for (Process process : processes) {
+			scheduler.loadProcess(process);
+		}
 		
 		scheduler.start();
-		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//Printing the Statistics
 		System.out.println(Statistics.getStatistics().toString());
 		new Shell();

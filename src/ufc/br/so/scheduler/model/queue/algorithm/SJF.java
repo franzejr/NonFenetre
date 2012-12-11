@@ -34,7 +34,7 @@ public class SJF extends ScheduleAlgorithm {
 		report.setReport("Starting the execute method from SJF Algorithm");
 		priorityQueue.addAll(source);
 		
-		while(!source.isEmpty()){
+		while(!priorityQueue.isEmpty()){
 			report.setReport("Getting the first element from the BurstTime Queue and putting it in a result list");
 			result.add(priorityQueue.poll());
 		}

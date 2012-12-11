@@ -1,5 +1,7 @@
 package ufc.br.so.test;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,12 +44,13 @@ public class TestSJF {
 		String result = "";
 		for(Process process : sjf.getResult()){
 			result += process.toString() +",";
-			System.out.println(process.getArrivalTime());
-			System.out.println("TURN AROUND:"+process.getTurnAroundTime());
+			System.out.println("***** "+process.toString()+" *****");
+			System.out.println("EXECUTION TIME:"+process.getExecutionTime());
 		}
 		result = result.length() > 0 ? result.substring(0,result.length() - 1) + "." : result;
-		assert(result.equalsIgnoreCase("P0,P1,P2,P3."));
-		
+		System.out.println("**************");
+		System.out.println(" RESULT:"+result);
+		assertEquals("RESULT", "P3,P2,P0,P1.", result);
 	}
 
 }

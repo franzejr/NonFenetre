@@ -80,6 +80,9 @@ public class XMLHelper {
 					String processType = processElement.getAttribute("processType");
 					process.setTypeOfProcess(ProcessType.valueOf(processType));
 					
+					String processId = processElement.getAttribute("processId");
+					process.setIdentifier(processId);
+					
 					//TODO read process' instructions
 					listProcesses.add(process);
 				}

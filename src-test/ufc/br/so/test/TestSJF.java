@@ -46,6 +46,8 @@ public class TestSJF {
 			result += process.toString() +",";
 			System.out.println("***** "+process.toString()+" *****");
 			System.out.println("EXECUTION TIME:"+process.getExecutionTime());
+			System.out.println("Waiting TIME:"+process.getWaitingTime());
+			System.out.println("TurnAround TIME:"+process.getTurnAroundTime());
 		}
 		result = result.length() > 0 ? result.substring(0,result.length() - 1) + "." : result;
 		System.out.println("**************");

@@ -24,7 +24,6 @@ public class Process {
 
 	private Integer timeQuantum;
 
-	private float totalWaitingTime = 0f;
 	private float waitingTimeForFirstResponse = 0f;
 	private boolean isRunning;
 
@@ -47,13 +46,6 @@ public class Process {
 
 	public void setRunning(boolean isRunning) {
 		this.isRunning = isRunning;
-	}
-
-	public void addWaitingTime(float waitingTime) {
-		if (remainingTime == null || remainingTime == getExecutionTime()) {
-			waitingTimeForFirstResponse += waitingTime;
-		}
-		this.totalWaitingTime += waitingTime;
 	}
 	
 	public String getIdentifier() {
@@ -157,10 +149,6 @@ public class Process {
 
 	public float getWaitingTimeForFirstResponse() {
 		return waitingTimeForFirstResponse;
-	}
-
-	public float getTotalWaitingTime() {
-		return totalWaitingTime;
 	}
 
 	public long getArrivalTime() {

@@ -48,8 +48,14 @@ public class Statistics {
 		statisticTuples = new ArrayList<StatisticTuples>();
 		List<Processor> processors = processorCollection.getListProcessors();
 		
+		//Number of processors
+		statisticTuples.add(new StatisticTuples("number_processors", Integer.toString(processors.size())));
+		
 		//Number of processors executed
-		statisticTuples.add(new StatisticTuples("number_processes_executed", Integer.toString(processes.size())));
+		for(Processor processor : processors){
+			statisticTuples.add(new StatisticTuples("number_processes_executed P"+processor.getId(), Integer.toString(processor.getNumberProcessesExecuted())));
+		}
+		
 		
 		//Total time of processing
 		Float totalTimeProcessing = 0f;
@@ -65,21 +71,10 @@ public class Statistics {
 			}
 			statisticTuples.add(new StatisticTuples("quantity_process_by_queue", Integer.toString(queuesNumberProcesses.size())));
 		
-		
-			//Average throughput
-			float maxExecutingTime = 0f;
-			for(Processor processor : processors){
-				if(processor.getEffectiveExecutingTime() > maxExecutingTime){
-					maxExecutingTime = processor.getEffectiveExecutingTime();
-				}
-			}
-			Float avgThroughput = processes.size() / maxExecutingTime;
-			statisticTuples.add(new StatisticTuples("average_throughput", avgThroughput.toString() ));
-		
 			//Average waiting Time
 			Float avgWaitingTime = 0f;
 			for(Process process : processes){
-				avgWaitingTime += process.getTotalWaitingTime();
+				avgWaitingTime += process.getWaitingTime();
 			}
 			avgWaitingTime = avgWaitingTime / processes.size();
 			statisticTuples.add(new StatisticTuples("average_waitingTime", avgWaitingTime.toString() ));
@@ -87,7 +82,7 @@ public class Statistics {
 			//Average TurnAround
 			Float avgTurnAround = 0f;
 			for(Process process : processes){
-				avgTurnAround += process.getTotalWaitingTime() + process.getExecutionTime();
+				avgTurnAround += process.getWaitingTime() + process.getExecutionTime();
 			}
 			avgTurnAround = avgTurnAround / processes.size();
 			statisticTuples.add(new StatisticTuples("average_turnAround", avgTurnAround.toString() ));

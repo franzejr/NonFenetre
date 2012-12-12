@@ -32,9 +32,11 @@ public class Boot {
 		//Initializes the processors
 		List<Processor> listProcessors = new ArrayList<Processor>();
 		for(int i=1;i<=cpuNum;i++){
-			listProcessors.add(new Processor(i));
+			Processor processor = new Processor(i);
+			new Thread(processor).start();
+			listProcessors.add(processor);
 		}
-		
+		listMultilevelQueue.get(0).setProcessorQueue(listProcessors);
 		Scheduler scheduler = new Scheduler(listMultilevelQueue.get(0), listProcessors);
 		
 //		java.util.Queue<Process> processesQueue = listMultilevelQueue.get(0).getListAllQueues().get(0).getListProcesses();
@@ -52,6 +54,13 @@ public class Boot {
 			e.printStackTrace();
 		}
 		//Printing the Statistics
+		System.out.println(Statistics.getStatistics().toString());
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(Statistics.getStatistics().toString());
 		new Shell();
 	}

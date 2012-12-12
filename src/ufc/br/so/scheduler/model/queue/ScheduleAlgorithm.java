@@ -42,6 +42,11 @@ public abstract class ScheduleAlgorithm extends Algorithm<List<Process>> {
 			
 			if(process.isFinished()){
 				getCurrentQueue().getListProcesses().remove(process);
+			
+				for(Process p : getCurrentQueue().getListProcesses()){
+					p.setWaitingTime(p.getWaitingTime() + process.getExecutionTime());
+				}
+				
 			}else{
 				return process;
 			}

@@ -81,7 +81,7 @@ public class Queue {
 	public void addProcess(final Process process) {
 		Statistics.getStatistics().addProcess(process);
 		Statistics.getStatistics().addProcessQueue(this, process);
-		processes.add(process);
+//		processes.add(process);
 	}
 
 }

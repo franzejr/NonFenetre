@@ -1,6 +1,8 @@
 package ufc.br.so.scheduler.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ufc.br.so.scheduler.inter.IScheduler;
 import ufc.br.so.scheduler.inter.ThreadManagement;
@@ -20,31 +22,44 @@ import ufc.br.so.scheduler.model.queue.QueueType;
 public class Scheduler implements IScheduler, ThreadManagement {
 
 	private MultiLevelQueue multilevelQueue;
-	private Dispatcher dispatcher;
+	private Map<Processor,Dispatcher> dispatchers;
 	private ProcessorCollection processorCollection;
 	private Statistics statistics;
-	
+
 	private Thread schedulerThread;
-	
-	//State of the Scheduler
+
+	// State of the Scheduler
 	private boolean running = false;
-	
-	public Scheduler(MultiLevelQueue multiLevelQueue, List<Processor> listProcessors) {
+
+	public Scheduler(MultiLevelQueue multiLevelQueue,
+			List<Processor> listProcessors) {
 		this.multilevelQueue = multiLevelQueue;
 		this.processorCollection = new ProcessorCollection(listProcessors);
-		this.dispatcher = new Dispatcher();
 		this.statistics = Statistics.getStatistics();
 		schedulerThread = new Thread(this);
+
+		this.dispatchers = new HashMap<Processor,Dispatcher>();
+
+		for (Processor processor : this.processorCollection.getListProcessors()) {
+			Dispatcher dispatcher = new Dispatcher(processor);
+			// There is only one multiLevelQueue
+			dispatcher.addQueueList(multilevelQueue.getProcessorQueue().get(processor));
+			dispatchers.put(processor, dispatcher);
+		}
 	}
-	
+
 	@Override
 	public void setInitialParameters(Configuration c) {
 		// TODO Auto-generated method stub
 	}
+
 	/*
-	 * We're loading the process in the Scheduler constructor, there we can pass by parameter
-	 * a List of Process.
-	 * @see ufc.br.so.scheduler.inter.IScheduler#loadProcess(ufc.br.so.scheduler.model.processor.Process)
+	 * We're loading the process in the Scheduler constructor, there we can pass
+	 * by parameter a List of Process.
+	 * 
+	 * @see
+	 * ufc.br.so.scheduler.inter.IScheduler#loadProcess(ufc.br.so.scheduler.
+	 * model.processor.Process)
 	 */
 	@Override
 	public synchronized void loadProcess(final Process p) {
@@ -56,12 +71,14 @@ public class Scheduler implements IScheduler, ThreadManagement {
 	public void start() {
 		statistics.setProcessorCollection(processorCollection);
 		running = true;
-		if(!schedulerThread.isAlive()){
+		if (!schedulerThread.isAlive()) {
 			schedulerThread.start();
 		}
 		multilevelQueue.start();
-		dispatcher.start();
-		
+		for (Dispatcher dispatcher : dispatchers.values()) {
+			dispatcher.start();
+		}
+
 	}
 
 	@Override
@@ -71,39 +88,37 @@ public class Scheduler implements IScheduler, ThreadManagement {
 
 	@Override
 	public void resume() {
-		if(!running){
+		if (!running) {
 			running = true;
 			schedulerThread.notify();
 			multilevelQueue.start();
-			dispatcher.start();
+			for (Dispatcher dispatcher : dispatchers.values()) {
+				dispatcher.start();
+			}
 		}
 	}
 
 	@Override
 	public void stop() throws InterruptedException {
-		if(!schedulerThread.isInterrupted()){
+		if (!schedulerThread.isInterrupted()) {
 			schedulerThread.interrupt();
 		}
 		multilevelQueue.stop();
-		dispatcher.stop();
+		for (Dispatcher dispatcher : dispatchers.values()) {
+			dispatcher.stop();
+		}
 	}
 
 	@Override
 	public void run() {
-		// tosco mas deixa por enquanto
+
 		while (true) {
-			//System.out.println("RODANDO - SCHEDULER");
+
 			if (!running) {
-				/*
-				 * Caso a execṳ̣o tenha sido suspendida, o monitor fica em
-				 * espera at̩ ser resumido ou a thread ser interrompida:
-				 */
+
 				try {
 					this.wait();
 				} catch (InterruptedException e) {
-					// Ocorre quando o scheduler ̩ suspendido e em seguida
-					// parado antes de ser resumido.
-					// Neste deixa que a thread do escalonador morra:
 					return;
 				}
 			}
@@ -111,28 +126,26 @@ public class Scheduler implements IScheduler, ThreadManagement {
 			if (Thread.currentThread().isInterrupted()) {
 				return;
 			}
+			
+			for (Processor processor : processorCollection.getListProcessors()) {
+				Queue queue = multilevelQueue.getSelectedQueue(processor);
 
-			// Envia para o dispatcher a fila escolhida pelo multilevel queue e
-			// o processador escolhido:
-			Queue queue = multilevelQueue.getSelectedQueue();
-			if (queue != null) {
-				//System.out.println("ENTROU");
-				Process processToLoad = dispatcher.dispatch(queue, processorCollection);
-				if(processToLoad != null){
-					loadProcess(processToLoad);
+				if (queue != null) {
+					Process processToLoad = dispatchers.get(processor).dispatch(queue,processorCollection);
+					if (processToLoad != null) {
+						loadProcess(processToLoad);
+					}
 				}
-
-			} else {
-			//	System.out.println("ESPERANDO - SCHEDULER");
 			}
 		}
+
 	}
-	
+
 	@Override
 	public Statistics getStatistics() {
 		return this.statistics;
 	}
-	
+
 	public ProcessorCollection getProcessorCollection() {
 		return processorCollection;
 	}

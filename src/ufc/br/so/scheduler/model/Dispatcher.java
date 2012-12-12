@@ -1,5 +1,6 @@
 package ufc.br.so.scheduler.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ufc.br.so.scheduler.inter.ThreadManagement;
@@ -16,39 +17,14 @@ public class Dispatcher implements ThreadManagement {
 
 	private boolean running = false;
 
-	public Dispatcher() {
+	public Dispatcher(Processor processor) {
+		this.processor = processor;
 		dispatcherThread = new Thread(this);
+		listQueues = new ArrayList<Queue>();
 	}
 
 	public void addQueue(Queue queue) {
 		this.listQueues.add(queue);
-	}
-
-	private Processor getIdleProcessor(final List<Processor> all,
-			final Process selectedProcess) {
-		Processor idle = null;
-		float run1, run2;
-		for (Processor processor : all) {
-			if (idle == null) {
-				idle = processor;
-			} else {
-				run1 = idle.run(selectedProcess);
-				run2 = processor.run(selectedProcess);
-				if (idle.getExecutingProcess() != null
-						&& processor.getExecutingProcess() == null) {
-					idle = processor;
-				}
-				if ((idle.getExecutingProcess() == null && processor
-						.getExecutingProcess() == null)
-						|| (idle.getExecutingProcess() != null && processor
-								.getExecutingProcess() != null)) {
-					if (run2 < run1) {
-						idle = processor;
-					}
-				}
-			}
-		}
-		return idle;
 	}
 
 	public void addQueueList(List<Queue> listQueues) {
@@ -65,8 +41,7 @@ public class Dispatcher implements ThreadManagement {
 		Process selectedProcess = selectedQueue.selectProcess();
 
 		if (selectedProcess != null) {
-			getIdleProcessor(allProcessors.getListProcessors(), selectedProcess)
-					.setExecutingProcess(selectedProcess);
+			this.processor.setExecutingProcess(selectedProcess);
 		}
 		return selectedProcess;
 	}

@@ -12,6 +12,8 @@ public class Processor implements ThreadManagement {
 	private Process executingProcess;
 	private Thread processorThread;
 	private float effectiveExecutingTime;
+	
+	private int  numberProcessesExecuted=0;
 
 	public Processor(long id) {
 		this.id = id;
@@ -95,6 +97,7 @@ public class Processor implements ThreadManagement {
 			}else{
 				int timeExecuted = 0;
 				synchronized (executingProcess) {
+					numberProcessesExecuted++;
 					timeExecuted = executingProcess.execute();
 					effectiveExecutingTime += timeExecuted;
 					executingProcess.setExecutionTime(timeExecuted);
@@ -102,11 +105,6 @@ public class Processor implements ThreadManagement {
 					executingProcess.setRunning(false);
 					executingProcess = null;
 					
-					for(Process process : Statistics.getStatistics().getProcesses()){
-						if(!process.isFinished() && !process.isRunning()){
-							process.addWaitingTime(timeExecuted);
-						}
-					}
 				}
 			}
 		}
@@ -115,6 +113,14 @@ public class Processor implements ThreadManagement {
 	@Override
 	public String toString() {
 		return description;
+	}
+
+	public int getNumberProcessesExecuted() {
+		return numberProcessesExecuted;
+	}
+
+	public void setNumberProcessesExecuted(int numberProcessesExecuted) {
+		this.numberProcessesExecuted = numberProcessesExecuted;
 	}
 
 }

@@ -1,6 +1,7 @@
 package ufc.br.so.scheduler.model.queue.algorithm;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
@@ -41,7 +42,21 @@ public class RR extends ScheduleAlgorithm{
 	@Override
 	public void execute(List<Process> source, Parameters parameters) {
 		report.setReport("Starting the execute method from FCFS Algorithm");
+		List<Process> queueCopy = source;
 		
+		while(queueCopy.size() >0){
+			for(Process process: queueCopy){
+				if(process.getExecutionTime() <= 0){
+					queueCopy.remove(process);
+				}
+				Process processCopy = process;
+				processCopy.setExecutionTime(quantumTime);
+				queueCopy.add(processCopy);
+				process.setExecutionTime(process.getExecutionTime() - quantumTime);
+				result.add(processCopy);
+			}
+		}
+			
 	}
 
 	public int getQuantumTime() {

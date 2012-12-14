@@ -9,6 +9,7 @@ import ufc.br.so.kernel.spi.Parameters;
 import ufc.br.so.kernel.spi.Report;
 import ufc.br.so.scheduler.model.processor.Process;
 import ufc.br.so.scheduler.model.queue.ScheduleAlgorithm;
+
 /*
  * Round Robin Algorithm
  * 
@@ -20,43 +21,51 @@ import ufc.br.so.scheduler.model.queue.ScheduleAlgorithm;
  * to other scheduling problems, such as data packet scheduling in computer networks.
  * 
  */
-public class RR extends ScheduleAlgorithm{
+public class RR extends ScheduleAlgorithm {
 	/*
-	 * The quantum time is a part of time which each process will execute and
-	 * in each of these executions the burst time of this process will be decreased.
-	 * 
+	 * The quantum time is a part of time which each process will execute and in
+	 * each of these executions the burst time of this process will be
+	 * decreased.
 	 */
 	private int quantumTime;
-	
-	public RR(){
+
+	public RR() {
 		/*
-		 * The result will be a list of process, so this process can be repeated, of course, mainly if the
-		 * quantumTime is small.
+		 * The result will be a list of process, so this process can be
+		 * repeated, of course, mainly if the quantumTime is small.
 		 */
 		super(false);
 		result = new ArrayList<Process>();
 		identifier = "RR";
 		report = new Report();
 	}
-	
+
 	@Override
 	public void execute(List<Process> source, Parameters parameters) {
 		report.setReport("Starting the execute method from FCFS Algorithm");
-		List<Process> queueCopy = source;
-		
-		while(queueCopy.size() >0){
-			for(Process process: queueCopy){
-				if(process.getExecutionTime() <= 0){
-					queueCopy.remove(process);
-				}
-				Process processCopy = process;
-				processCopy.setExecutionTime(quantumTime);
-				queueCopy.add(processCopy);
-				process.setExecutionTime(process.getExecutionTime() - quantumTime);
-				result.add(processCopy);
+		List<Process> queueCopy = new ArrayList<Process>();
+
+		for (Process p : source) {
+			queueCopy.add(p);
+		}
+
+		int i = 0;
+		while (source.size() > 0) {
+			Process process = source.get(i);
+			if (process.getExecutionTime() <= 0) {
+				source.remove(process);
+			}
+			Process newProcess = process.clone();
+
+			newProcess.setExecutionTime(quantumTime);
+			process.setExecutionTime(process.getExecutionTime() - quantumTime);
+			result.add(newProcess);
+			
+			i++;
+			if(i == source.size()){
+				i = 0;
 			}
 		}
-			
 	}
 
 	public int getQuantumTime() {
@@ -72,6 +81,5 @@ public class RR extends ScheduleAlgorithm{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }

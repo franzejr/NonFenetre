@@ -142,6 +142,16 @@ public class Process {
 		}
 
 	};
+	
+	public Process clone() {
+		Process process = new Process();
+		process.setArrivalTime(this.arrivalTime);
+		process.setIdentifier(this.identifier);
+		process.setExecutionTime(this.executionTime);
+	
+		return process;
+	};
+	
 	@Override
 	public String toString() {
 		return this.getIdentifier();

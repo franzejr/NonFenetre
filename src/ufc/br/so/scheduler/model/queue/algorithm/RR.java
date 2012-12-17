@@ -1,7 +1,6 @@
 package ufc.br.so.scheduler.model.queue.algorithm;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
@@ -42,7 +41,7 @@ public class RR extends ScheduleAlgorithm {
 
 	@Override
 	public void execute(List<Process> source, Parameters parameters) {
-		report.setReport("Starting the execute method from FCFS Algorithm");
+		report.setReport("Starting the execute method from RR Algorithm");
 		List<Process> queueCopy = new ArrayList<Process>();
 
 		for (Process p : source) {
@@ -50,22 +49,44 @@ public class RR extends ScheduleAlgorithm {
 		}
 
 		int i = 0;
+		int tempo = 0;
 		while (source.size() > 0) {
 			Process process = source.get(i);
 			if (process.getExecutionTime() <= 0) {
+
 				source.remove(process);
+
+				// setting the turnaround time
+				for (Process pCopy : queueCopy) {
+					if (pCopy.getIdentifier() == process.getIdentifier()) {
+						pCopy.setTurnAroundTime(tempo);
+					}
+				}
+
 			}
 			Process newProcess = process.clone();
 
 			newProcess.setExecutionTime(quantumTime);
 			process.setExecutionTime(process.getExecutionTime() - quantumTime);
+			tempo += quantumTime;
 			result.add(newProcess);
-			
+
 			i++;
-			if(i == source.size()){
+			if (i == source.size()) {
 				i = 0;
 			}
 		}
+
+		// Setting the turn around time in each of the processes
+		for (Process pCopy : queueCopy) {
+			for (Process pFinal : result) {
+				if (pCopy.getIdentifier() == pFinal.getIdentifier()) {
+					pFinal.setTurnAroundTime(pCopy.getTurnAroundTime());
+					pFinal.setWaitingTime(pCopy.getTurnAroundTime() - pCopy.getExecutionTime());
+				}
+			}
+		}
+
 	}
 
 	public int getQuantumTime() {

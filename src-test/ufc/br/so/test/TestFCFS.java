@@ -1,6 +1,6 @@
 package ufc.br.so.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,6 @@ import ufc.br.so.scheduler.model.processor.Process;
 import ufc.br.so.scheduler.model.queue.MultiLevelQueue;
 import ufc.br.so.scheduler.model.queue.Queue;
 import ufc.br.so.scheduler.model.queue.algorithm.FCFS;
-import ufc.br.so.scheduler.model.queue.algorithm.SJF;
 import ufc.br.so.util.XMLHelper;
 
 public class TestFCFS {

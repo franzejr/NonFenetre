@@ -32,24 +32,24 @@ public class Shell {
 	private void executeCommand(String command) throws CommandNotFoundException {
 		//se o comando não for nulo nem vazio
 		if(command != null && !"".equals(command)){
-			//constroi o nome da classe respectiva
+			//Build the class name
 			String commandClass = command.substring(0, 1).toUpperCase()+command.substring(1).toLowerCase();
 			Function fun;
 			try{
-				//cria uma instância da classe
+				//Create an instance from the function class
 				fun = (Function)Class.forName("ufc.br.so.shell.commandline.functions."+commandClass).newInstance();
 			}
 			catch(ClassNotFoundException e) {
-				//se o comando não existir, gera exceção espefífica
+				//If the command doesn't exist, an exception will be throw
 				throw new CommandNotFoundException(command);
 			}
 			catch(Exception e){
-				//qualquer exceção que possa ser gerada
+				//Any other exception
 				e.printStackTrace();
 				return;
 			}
 			if(fun != null){
-				//executa o comando
+				//execute the command
 				fun.execute();
 			}
 		}

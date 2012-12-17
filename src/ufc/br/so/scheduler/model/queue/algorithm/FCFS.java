@@ -34,9 +34,16 @@ public class FCFS extends ScheduleAlgorithm {
 		report.setReport("Starting the execute method from FCFS Algorithm");
 		priorityQueue.addAll(source);
 		
+		int tempo = 0;
 		while (!priorityQueue.isEmpty()) {
 			report.setReport("Getting the first element from the Priority Queue and putting it in a result list");
-			result.add(priorityQueue.poll());
+			
+			Process p = priorityQueue.poll();
+			tempo += p.getExecutionTime();
+			p.setTurnAroundTime(tempo);
+			p.setWaitingTime(p.getTurnAroundTime() - p.getExecutionTime());
+			
+			result.add(p);
 		}
 	}
 

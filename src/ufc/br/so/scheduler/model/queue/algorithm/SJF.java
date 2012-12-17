@@ -1,7 +1,6 @@
 package ufc.br.so.scheduler.model.queue.algorithm;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -34,9 +33,15 @@ public class SJF extends ScheduleAlgorithm {
 		report.setReport("Starting the execute method from SJF Algorithm");
 		priorityQueue.addAll(source);
 		
+		int tempo = 0;
 		while(!priorityQueue.isEmpty()){
 			report.setReport("Getting the first element from the BurstTime Queue and putting it in a result list");
-			result.add(priorityQueue.poll());
+			Process p = priorityQueue.poll();
+			tempo += p.getExecutionTime();
+			p.setTurnAroundTime(tempo);
+			p.setWaitingTime(p.getTurnAroundTime() - p.getExecutionTime());
+			
+			result.add(p);
 		}
 	}
 

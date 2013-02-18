@@ -1,14 +1,14 @@
 package ufc.br.so.scheduler.model.processor;
 
 import ufc.br.so.scheduler.inter.ThreadManagement;
-import ufc.br.so.scheduler.model.Statistics;
+import ufc.br.so.scheduler.model.StatisticsModule;
 import ufc.br.so.scheduler.model.processor.Process;
 
 public class Processor implements ThreadManagement {
 
 	private long id;
 	private String description;
-	private Statistics statistics;
+	private StatisticsModule statistics;
 	private Process executingProcess;
 	private Thread processorThread;
 	private float effectiveExecutingTime;
@@ -23,7 +23,7 @@ public class Processor implements ThreadManagement {
 		this.description = description;
 		processorThread = new Thread(this);
 		processorThread.start();
-		statistics = Statistics.getStatistics();
+		statistics = StatisticsModule.getStatistics();
 	}
 	
 	public float getEffectiveExecutingTime() {
@@ -38,11 +38,11 @@ public class Processor implements ThreadManagement {
 		this.id = id;
 	}
 
-	public Statistics getStatistics() {
+	public StatisticsModule getStatistics() {
 		return statistics;
 	}
 
-	public void setStatistics(Statistics statistics) {
+	public void setStatistics(StatisticsModule statistics) {
 		this.statistics = statistics;
 	}
 

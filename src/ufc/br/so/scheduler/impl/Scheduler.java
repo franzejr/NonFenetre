@@ -8,7 +8,7 @@ import ufc.br.so.scheduler.inter.IScheduler;
 import ufc.br.so.scheduler.inter.ThreadManagement;
 import ufc.br.so.scheduler.model.Configuration;
 import ufc.br.so.scheduler.model.Dispatcher;
-import ufc.br.so.scheduler.model.Statistics;
+import ufc.br.so.scheduler.model.StatisticsModule;
 import ufc.br.so.scheduler.model.processor.Process;
 import ufc.br.so.scheduler.model.processor.Processor;
 import ufc.br.so.scheduler.model.processor.ProcessorCollection;
@@ -24,7 +24,7 @@ public class Scheduler implements IScheduler, ThreadManagement {
 	private MultiLevelQueue multilevelQueue;
 	private Map<Processor,Dispatcher> dispatchers;
 	private ProcessorCollection processorCollection;
-	private Statistics statistics;
+	private StatisticsModule statistics;
 
 	private Thread schedulerThread;
 
@@ -35,7 +35,7 @@ public class Scheduler implements IScheduler, ThreadManagement {
 			List<Processor> listProcessors) {
 		this.multilevelQueue = multiLevelQueue;
 		this.processorCollection = new ProcessorCollection(listProcessors);
-		this.statistics = Statistics.getStatistics();
+		this.statistics = StatisticsModule.getStatistics();
 		schedulerThread = new Thread(this);
 
 		this.dispatchers = new HashMap<Processor,Dispatcher>();
@@ -142,7 +142,7 @@ public class Scheduler implements IScheduler, ThreadManagement {
 	}
 
 	@Override
-	public Statistics getStatistics() {
+	public StatisticsModule getStatistics() {
 		return this.statistics;
 	}
 

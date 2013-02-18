@@ -1,6 +1,6 @@
 package ufc.br.so.scheduler.model.queue;
 
-import ufc.br.so.scheduler.model.Statistics;
+import ufc.br.so.scheduler.model.StatisticsModule;
 import ufc.br.so.scheduler.model.processor.Process;
 
 public class Queue {
@@ -79,8 +79,8 @@ public class Queue {
 	}
 
 	public void addProcess(final Process process) {
-		Statistics.getStatistics().addProcess(process);
-		Statistics.getStatistics().addProcessQueue(this, process);
+		StatisticsModule.getStatistics().addProcess(process);
+		StatisticsModule.getStatistics().addProcessQueue(this, process);
 //		processes.add(process);
 	}
 

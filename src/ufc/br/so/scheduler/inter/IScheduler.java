@@ -1,7 +1,7 @@
 package ufc.br.so.scheduler.inter;
 
 import ufc.br.so.scheduler.model.Configuration;
-import ufc.br.so.scheduler.model.Statistics;
+import ufc.br.so.scheduler.model.StatisticsModule;
 import ufc.br.so.scheduler.model.processor.Process;
 
 public interface IScheduler {
@@ -19,6 +19,6 @@ public interface IScheduler {
 	void resume();
 
 	// Retorna as estatísticas da execução dos processos
-	Statistics getStatistics();
+	StatisticsModule getStatistics();
 	
 }

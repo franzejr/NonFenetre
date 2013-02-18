@@ -5,7 +5,7 @@ import ufc.br.so.boot.Boot;
 public class Main {
 
 	/**
-	 * @param args
+	 * NonFenetre Operating System...
 	 */
 	public static void main(String[] args) {
 		new Boot();

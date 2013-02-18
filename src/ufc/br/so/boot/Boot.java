@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import ufc.br.so.VM.storage.ProcessorQtd;
 import ufc.br.so.scheduler.impl.Scheduler;
-import ufc.br.so.scheduler.model.Statistics;
+import ufc.br.so.scheduler.model.StatisticsModule;
 import ufc.br.so.scheduler.model.processor.Processor;
 import ufc.br.so.scheduler.model.queue.MultiLevelQueue;
 import ufc.br.so.shell.commandline.Shell;
+import ufc.br.so.storage.HardDisk;
+import ufc.br.so.storage.RAM;
 import ufc.br.so.util.XMLHelper;
 
 public class Boot {
@@ -20,62 +23,27 @@ public class Boot {
 	private int HDSize;
 
 	public Boot(){
+		System.out.println("Starting the Operating System...");
 		getConfig();
-		List<MultiLevelQueue> listMultilevelQueue = null;
-		try{
-			//Read the multilevelQueues from the xml file
-			listMultilevelQueue = XMLHelper.readMultilevelqueueFile("multilevelQueue.xml");
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		//Initializes the processors
-		List<Processor> listProcessors = new ArrayList<Processor>();
-		for(int i=1;i<=cpuNum;i++){
-			Processor processor = new Processor(i);
-			new Thread(processor).start();
-			listProcessors.add(processor);
-		}
-		listMultilevelQueue.get(0).setProcessorQueue(listProcessors);
-		Scheduler scheduler = new Scheduler(listMultilevelQueue.get(0), listProcessors);
-		
-//		java.util.Queue<Process> processesQueue = listMultilevelQueue.get(0).getListAllQueues().get(0).getListProcesses();
-//		
-//		while(!processesQueue.isEmpty()){
-//			Process process = processesQueue.poll();
-//			scheduler.loadProcess(process);
-//		}
-		
-		scheduler.start();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//Printing the Statistics
-		System.out.println(Statistics.getStatistics().toString());
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(Statistics.getStatistics().toString());
 		new Shell();
 	}
 
 	private void getConfig(){
+		System.out.println("Getting configs...");
 		Properties properties = new Properties();
 		try {
 			properties.load(new FileInputStream("resources/config.cfg"));
 		} catch (IOException e) {
 			System.out.println("No config.cfg found!");
 		}
+		
 		cpuNum = Integer.parseInt(properties.getProperty("CPU_NUM"));
+		ProcessorQtd.setProcessorQtd(cpuNum);
 		ramSize = Integer.parseInt(properties.getProperty("RAM_SIZE"));
+		RAM.setRamSize(ramSize);
 		HDSize = Integer.parseInt(properties.getProperty("HD_SIZE"));
-		System.out.println(cpuNum+" "+ramSize+" "+HDSize);
+		HardDisk.setHardDiskSize(HDSize);
+		System.out.println("CPU NUM: "+cpuNum+" "+"RAM Size: "+ramSize+" "+"HD Size: "+HDSize);
 	}
 	
 

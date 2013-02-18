@@ -18,9 +18,9 @@ import ufc.br.so.scheduler.model.processor.Process;
  * General Statistics
  * 
  */
-public class Statistics {
+public class StatisticsModule {
 
-	private static Statistics statistics = null;
+	private static StatisticsModule statistics = null;
 
 	private List<StatisticTuples> statisticTuples;
 
@@ -30,14 +30,14 @@ public class Statistics {
 
 	private Set<Process> processes = new HashSet<Process>();
 
-	public static Statistics getStatistics() {
+	public static StatisticsModule getStatistics() {
 		if (statistics == null) {
-			statistics = new Statistics();
+			statistics = new StatisticsModule();
 		}
 		return statistics;
 	}
 
-	private Statistics() {
+	private StatisticsModule() {
 
 	}
 

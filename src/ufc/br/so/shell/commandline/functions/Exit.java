@@ -1,12 +1,12 @@
 package ufc.br.so.shell.commandline.functions;
 
-import ufc.br.so.kernel.systemcalls.SystemCalls;
+import ufc.br.so.programs.InstalledPrograms;
 
 public class Exit implements Function {
 
 	@Override
 	public void execute() {
-		SystemCalls.exit();
+		InstalledPrograms.getInstalledProgram("exit").execute();
 	}
 
 }

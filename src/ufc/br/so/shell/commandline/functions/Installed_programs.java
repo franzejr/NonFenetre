@@ -2,11 +2,12 @@ package ufc.br.so.shell.commandline.functions;
 
 import ufc.br.so.programs.InstalledPrograms;
 
-public class Lshw implements Function {
+public class Installed_programs implements Function {
 
 	@Override
 	public void execute() {
-		InstalledPrograms.getInstalledProgram("lshw").execute();
+		InstalledPrograms.getInstalledProgram("installed_programs").execute();
 	}
 
+	
 }

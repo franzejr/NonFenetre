@@ -3,6 +3,7 @@ package ufc.br.so.shell.commandline;
 import java.util.Scanner;
 
 import ufc.br.so.exception.CommandNotFoundException;
+import ufc.br.so.memory.PageList;
 import ufc.br.so.shell.commandline.functions.Function;
 
 public class Shell {

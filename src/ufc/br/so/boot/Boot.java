@@ -2,25 +2,23 @@ package ufc.br.so.boot;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import ufc.br.so.VM.storage.ProcessorQtd;
-import ufc.br.so.scheduler.impl.Scheduler;
-import ufc.br.so.scheduler.model.StatisticsModule;
-import ufc.br.so.scheduler.model.processor.Processor;
-import ufc.br.so.scheduler.model.queue.MultiLevelQueue;
+import ufc.br.so.memory.PageList;
+import ufc.br.so.programs.InstalledPrograms;
+import ufc.br.so.services.DateTimeService;
+import ufc.br.so.services.ServicesRunning;
 import ufc.br.so.shell.commandline.Shell;
 import ufc.br.so.storage.HardDisk;
 import ufc.br.so.storage.RAM;
-import ufc.br.so.util.XMLHelper;
 
 public class Boot {
 	
 	private int cpuNum;
 	private int ramSize;
 	private int HDSize;
+	private int pageSize;
 
 	public Boot(){
 		System.out.println("Starting the Operating System...");
@@ -41,9 +39,44 @@ public class Boot {
 		ProcessorQtd.setProcessorQtd(cpuNum);
 		ramSize = Integer.parseInt(properties.getProperty("RAM_SIZE"));
 		RAM.setRamSize(ramSize);
+		RAM.totalRamSize = ramSize;
+		
 		HDSize = Integer.parseInt(properties.getProperty("HD_SIZE"));
 		HardDisk.setHardDiskSize(HDSize);
-		System.out.println("CPU NUM: "+cpuNum+" "+"RAM Size: "+ramSize+" "+"HD Size: "+HDSize);
+		
+		pageSize = Integer.parseInt(properties.getProperty("PAGE_SIZE"));
+		
+		System.out.println("CPU NUM: "+cpuNum+" "+"RAM Size: "+ramSize+"mb "+"HD Size: "+HDSize+"mb");
+		startMemoryManager(pageSize);
+		startServices();
+		InstalledPrograms.getInstalledPrograms();
+	}
+	
+	private void startServices(){
+		System.out.println("Starting services...");
+		
+		/*
+		 * DateTimeService
+		 */
+		
+		DateTimeService dateTimeService = new DateTimeService();
+		ServicesRunning.startService(dateTimeService);
+		
+		
+		/*
+		 * MemInfo
+		 */
+		
+		//DateTimeService dateTimeService = new DateTimeService();
+		//ServicesRunning.startService(dateTimeService);
+		
+		
+		
+	}
+	
+	public void startMemoryManager(int pageSize){
+		System.out.println("Starting the Memory Manager...");
+		PageList.startPageList(pageSize);
 	}
 	
 

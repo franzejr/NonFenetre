@@ -1,6 +1,8 @@
 package ufc.br.so.programs;
 
 import ufc.br.so.storage.RAM;
+import java.util.List;
+import ufc.br.so.memory.Page;
 
 public class MemInfoProgram extends Program {
 
@@ -12,7 +14,9 @@ public class MemInfoProgram extends Program {
 
 	@Override
 	public void execute() {
+		List<Page> busyPages = setBusyPages();
 		System.out.println("Free Memory: "+RAM.getRamSize() +"mb");
+		freePages(busyPages);
 	}
 
 }

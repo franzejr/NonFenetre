@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ufc.br.so.VM.storage.ProcessorQtd;
+import ufc.br.so.memory.Page;
 import ufc.br.so.scheduler.impl.Scheduler;
 import ufc.br.so.scheduler.model.StatisticsModule;
 import ufc.br.so.scheduler.model.processor.Processor;
@@ -21,6 +22,7 @@ public class StatisticsProgram extends Program {
 	
 	@Override
 	public void execute() {
+		List<Page> busyPages = setBusyPages();
 		int cpuNum = ProcessorQtd.getProcessorQtd();
 		
 		List<MultiLevelQueue> listMultilevelQueue = null;
@@ -65,7 +67,7 @@ public class StatisticsProgram extends Program {
 		}
 		System.out.println(StatisticsModule.getStatistics().toString());
 
-		
+		freePages(busyPages);
 	}
 
 }

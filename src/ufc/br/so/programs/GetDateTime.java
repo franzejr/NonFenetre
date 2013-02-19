@@ -1,5 +1,8 @@
 package ufc.br.so.programs;
 
+import java.util.List;
+
+import ufc.br.so.memory.Page;
 import ufc.br.so.services.ServicesRunning;
 
 public class GetDateTime extends Program {
@@ -12,7 +15,9 @@ public class GetDateTime extends Program {
 
 	@Override
 	public void execute() {
+		List<Page> busyPages = setBusyPages();
 		ServicesRunning.getServiceRunning("getdatetime").execute();
+		freePages(busyPages);
 	}
 
 }

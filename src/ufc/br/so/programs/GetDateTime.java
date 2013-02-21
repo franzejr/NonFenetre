@@ -9,13 +9,13 @@ public class GetDateTime extends Program {
 	
 	public GetDateTime() {
 		this.setName("getdatetime");
-		this.setSize(1);
+		this.setSize(4);
 		this.setDescription("getdatetime - Return the current date and time");
 	}
 
 	@Override
 	public void execute() {
-		List<Page> busyPages = setBusyPages();
+		List<Page> busyPages = this.setBusyPages();
 		ServicesRunning.getServiceRunning("getdatetime").execute();
 		freePages(busyPages);
 	}

@@ -3,8 +3,6 @@ package ufc.br.so.programs;
 import java.util.List;
 
 import ufc.br.so.memory.Page;
-import java.util.List;
-import ufc.br.so.memory.Page;
 
 public class InstalledProgramsList extends Program {
 

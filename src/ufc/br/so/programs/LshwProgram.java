@@ -3,6 +3,7 @@ package ufc.br.so.programs;
 import java.util.List;
 
 import ufc.br.so.memory.Page;
+import ufc.br.so.memory.PageList;
 import ufc.br.so.storage.HardDisk;
 import ufc.br.so.storage.RAM;
 
@@ -17,12 +18,15 @@ public class LshwProgram extends Program {
 	@Override
 	public void execute() {
 		
-		List<Page> busyPages = setBusyPages();
+		List<Page> busyPages = this.setBusyPages();
 		
 		System.out.println("Non Fenetre Operating System version 2.1.2");
 		System.out.println("Hard Disk Size: "+HardDisk.getHardDiskSize() +"mb");
 		System.out.println("Total Memory Size: "+RAM.totalRamSize +"mb");
 		System.out.println("Free Memory: "+RAM.getRamSize() +"mb");
+		System.out.println("Page Size: "+PageList.totalPageSize);
+		System.out.println("Total HD Pages: "+HardDisk.getHardDiskSize()/PageList.totalPageSize);
+		System.out.println("Total RAM Pages: "+RAM.getRamSize()/PageList.totalPageSize);
 		freePages(busyPages);
 	}
 

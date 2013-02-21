@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ufc.br.so.programs.Program;
+import ufc.br.so.programs.ServicesRunningList;
+import ufc.br.so.services.ServicesRunning;
 
 public class RAM {
 	
@@ -27,6 +29,10 @@ public class RAM {
 
 	public static void addProgram(Program program) {
 		programs.add(program);
+		if(ServicesRunning.getSumMemoryServices() > ramSize){
+			System.err.println("It's impossible to start all services!!!");
+			System.exit(0);
+		}
 		ramSize -= program.getSize();
 	}
 

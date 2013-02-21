@@ -14,7 +14,7 @@ public class MemInfoProgram extends Program {
 
 	@Override
 	public void execute() {
-		List<Page> busyPages = setBusyPages();
+		List<Page> busyPages = this.setBusyPages();
 		System.out.println("Free Memory: "+RAM.getRamSize() +"mb");
 		freePages(busyPages);
 	}

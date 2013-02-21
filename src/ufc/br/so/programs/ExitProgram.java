@@ -14,7 +14,7 @@ public class ExitProgram extends Program {
 	
 	@Override
 	public void execute() {
-		List<Page> busyPages = setBusyPages();
+		List<Page> busyPages = this.setBusyPages();
 		SystemCalls.exit();
 		freePages(busyPages);
 	}

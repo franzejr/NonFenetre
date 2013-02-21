@@ -8,6 +8,7 @@ import ufc.br.so.VM.storage.ProcessorQtd;
 import ufc.br.so.memory.PageList;
 import ufc.br.so.programs.InstalledPrograms;
 import ufc.br.so.services.DateTimeService;
+import ufc.br.so.services.MemInfoService;
 import ufc.br.so.services.ServicesRunning;
 import ufc.br.so.shell.commandline.Shell;
 import ufc.br.so.storage.HardDisk;
@@ -63,12 +64,13 @@ public class Boot {
 		ServicesRunning.startService(dateTimeService);
 		
 		
+		
 		/*
 		 * MemInfo
 		 */
 		
-		//DateTimeService dateTimeService = new DateTimeService();
-		//ServicesRunning.startService(dateTimeService);
+		MemInfoService memInfo = new MemInfoService();
+		ServicesRunning.startService(memInfo);
 		
 		
 		

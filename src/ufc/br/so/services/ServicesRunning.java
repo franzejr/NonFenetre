@@ -1,6 +1,7 @@
 package ufc.br.so.services;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import ufc.br.so.programs.Program;
 import ufc.br.so.storage.RAM;
@@ -20,6 +21,15 @@ public class ServicesRunning {
 	public static void startService(Program program){
 		servicesRunning.put(program.getName(), program);
 		RAM.addProgram(program);
+	}
+	
+	public static int getSumMemoryServices(){
+		int sum = 0;
+		for (String s : servicesRunning.keySet()) {
+			sum += servicesRunning.get(s).getSize();
+		}
+		
+		return sum;
 	}
 	
 	public static void stopService(String nameService){

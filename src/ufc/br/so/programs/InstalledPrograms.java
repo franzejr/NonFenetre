@@ -36,6 +36,9 @@ public final class InstalledPrograms {
 		MemInfoProgram memInfo = new MemInfoProgram();
 		installed.put(memInfo.getName(), memInfo);
 		
+		OutMemoryProgram outMemory = new OutMemoryProgram();
+		installed.put(outMemory.getName(), outMemory);
+		
 		
 	}
 	
